@@ -1,47 +1,28 @@
-/* Base */
-body { margin:0; padding:0; font-family:Inter,sans-serif; background:black; color:#8B4513; }
+html, body {
+  margin:0;
+  padding:0;
+  height:100%;
+  background:black;
+  overflow-x:hidden;
+  font-family:Inter,sans-serif;
+}
 
-/* Navbar */
-#navbar { display:flex; justify-content:space-between; align-items:center; padding:1rem 3rem; position:fixed; top:0; width:100%; z-index:100; }
-.nav-left { display:flex; align-items:center; gap:0.8rem; }
-.nav-title { font-weight:800; color:#DAA520; font-size:1.5rem; }
-.nav-links a { margin-left:1.5rem; text-decoration:none; color:#DAA520; font-weight:500; }
-.nav-links a:hover { color:#FFD700; }
+canvas#particles {
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+}
 
-/* Hero */
-.hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding-top:6rem; }
-.hero-logo { height:14rem; margin-bottom:1rem; }
-.hero-title { font-family:Poppins; font-size:4rem; font-weight:800; color:#DAA520; margin-bottom:0.8rem; }
-.hero-subtitle span { color:#FFD700; }
-.hero-buttons { margin-top:1rem; display:flex; gap:1rem; }
-button, .discord-btn { background:#DAA520; color:white; border:none; padding:0.8rem 1.5rem; border-radius:0.6rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:0.5rem; transition:0.3s; }
-button:hover, .discord-btn:hover { background:#FFD700; }
+#playerCount {
+  color:#DAA520;
+  font-size:1.5rem;
+  font-weight:700;
+  text-shadow:0 0 10px #FFD700, 0 0 20px #FFD700;
+  animation: glow 2s infinite alternate;
+}
 
-/* Cards */
-.cards { display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; margin-top:2rem; }
-.feature-card, .game-mode-card { background:#FFD70033; padding:1.5rem; border-radius:1rem; text-align:center; transition:0.3s; }
-.feature-card:hover, .game-mode-card:hover { transform:scale(1.05); box-shadow:0 0 15px #DAA520; }
-.feature-card h3, .game-mode-card h3 { color:#8B4513; margin-bottom:0.5rem; }
-.feature-card p, .game-mode-card p { color:#A0522D; }
-.feature-card i, .game-mode-card i { color:#8B4513; margin-bottom:0.5rem; }
-
-/* Community */
-.community-cards > div { background:#FFD70033; padding:2rem; border-radius:1rem; margin:1rem; text-align:center; }
-.community-cards h3 { color:#8B4513; }
-.community-cards p { color:#A0522D; }
-
-/* Player count */
-.player-count { margin-top:1.5rem; padding:0.5rem 1rem; border-radius:0.5rem; background:#DAA52033; color:#8B4513; font-weight:600; }
-
-/* Modal */
-.modal { position:fixed; inset:0; background:rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.3s; z-index:200; }
-.modal.active { opacity:1; pointer-events:auto; }
-.modal-content { background:#FFF8DC; padding:2rem; border-radius:1rem; width:320px; text-align:center; position:relative; }
-#closeModal { position:absolute; top:0.5rem; right:0.5rem; background:none; border:none; cursor:pointer; }
-
-/* Footer */
-footer { padding:2rem; text-align:center; color:#8B4513; }
-footer .footer-logo { height:80px; margin-bottom:1rem; }
-
-/* Responsive */
-@media(max-width:768px){ .cards { flex-direction:column; align-items:center; } }
+@keyframes glow {
+  from { text-shadow:0 0 5px #FFD700, 0 0 10px #FFD700; }
+  to { text-shadow:0 0 15px #FFD700, 0 0 30px #FFD700; }
+}
