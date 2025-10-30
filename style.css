@@ -1,91 +1,41 @@
-/* Body & general */
 body {
-  font-family: 'Inter', sans-serif;
-  background: #000; /* pure black background */
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  color: #fff;
+  margin:0; padding:0; font-family:Inter,sans-serif; background:black; color:#8B4513;
+  overflow-x:hidden;
 }
 
-/* Card styles */
-.cards {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+/* Navbar */
+#navbar { display:flex; justify-content:space-between; align-items:center; padding:1rem 3rem; position:fixed; top:0; width:100%; z-index:100; }
+.nav-left { display:flex; align-items:center; gap:0.8rem; }
+.nav-title { font-weight:800; color:#DAA520; font-size:1.5rem; }
+.nav-links a { margin-left:1.5rem; text-decoration:none; color:#DAA520; font-weight:500; }
+.nav-links a:hover { color:#FFD700; }
 
-.feature-card, .game-mode-card {
-  border-radius: 1rem;
-  padding: 1.5rem;
-  text-align: center;
-  background: linear-gradient(135deg, #FFF8DC, #FFE4B5); /* light yellow */
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+/* Hero */
+.hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding-top:6rem; position:relative; }
+.hero-logo { height:14rem; margin-bottom:1rem; }
+.hero-title { font-family:Poppins; font-size:4rem; font-weight:800; color:#DAA520; margin-bottom:0.8rem; }
+.hero-subtitle span { color:#FFD700; }
+.hero-buttons { margin-top:1rem; display:flex; gap:1rem; }
+button, .discord-btn { background:#DAA520; color:white; border:none; padding:0.8rem 1.5rem; border-radius:0.6rem; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:0.5rem; transition:0.3s; }
+button:hover, .discord-btn:hover { background:#FFD700; }
 
-.feature-card:hover, .game-mode-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(139, 69, 19, 0.4); /* subtle brown glow on hover */
-}
+/* Cards */
+.cards { display:flex; flex-wrap:wrap; gap:2rem; justify-content:center; margin-top:2rem; }
+.feature-card, .game-mode-card { background:#FFD70033; padding:1.5rem; border-radius:1rem; text-align:center; transition:0.3s; }
+.feature-card:hover, .game-mode-card:hover { transform:scale(1.05); box-shadow:0 0 15px #DAA520; }
+.feature-card h3, .game-mode-card h3 { color:#8B4513; margin-bottom:0.5rem; }
+.feature-card p, .game-mode-card p { color:#A0522D; }
 
-/* Icons inside cards */
-.feature-card i, .game-mode-card i {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 12px;
-  color: #8B4513; /* dark brown */
-}
+/* Community */
+.community-cards > div { background:#FFD70033; padding:2rem; border-radius:1rem; margin:1rem; text-align:center; }
+.community-cards h3 { color:#8B4513; }
+.community-cards p { color:#A0522D; }
 
-/* Titles in cards */
-.feature-card h3, .game-mode-card h3 {
-  color: #8B4513; /* dark brown */
-  margin-bottom: 6px;
-  font-weight: 700;
-}
+/* Player count */
+.player-count { margin-top:1.5rem; padding:0.5rem 1rem; border-radius:0.5rem; background:#DAA52033; color:#8B4513; font-weight:600; }
 
-/* Descriptions in cards */
-.feature-card p, .game-mode-card p {
-  color: #A0522D; /* lighter brown */
-  font-size: 0.95rem;
-  line-height: 1.5rem;
-}
-
-/* Community cards */
-.community-cards div {
-  background: #FFF8DC;
-  padding: 2rem;
-  border-radius: 1rem;
-  color: #8B4513;
-}
-
-/* Buttons */
-button, .discord-btn {
-  background: linear-gradient(90deg, #DAA520, #B8860B);
-  color: #fff;
-  padding: 0.7rem 1.5rem;
-  border: none;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-button:hover, .discord-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(218, 165, 32, 0.6);
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 2rem;
-  color: #DAA520;
-}
-
-footer img {
-  height: 60px;
-  margin-bottom: 1rem;
-}
+/* Modal */
+.modal { position:fixed; inset:0; background:rgba(0,0,0,0.7); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.3s; }
+.modal.active { opacity:1; pointer-events:auto; }
+.modal-content { background:#FFF8DC; padding:2rem; border-radius:1rem; width:320px; text-align:center; position:relative; }
+#closeModal { position:absolute; top:0.5rem; right:0.5rem; background:none; border:none; cursor:pointer; }
