@@ -12,14 +12,14 @@
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar fixed top-0 left-0 w-full z-50">
-  <div class="nav-left flex items-center space-x-2">
+<nav class="fixed top-0 left-0 w-full z-50 px-8 py-5 flex justify-between items-center bg-transparent">
+  <div class="flex items-center space-x-2">
     <a href="#home" class="flex items-center space-x-2">
       <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-14">
       <span class="text-2xl font-bold text-yellow-600">RadicleMC</span>
     </a>
   </div>
-  <div class="nav-right hidden md:flex space-x-6 font-medium">
+  <div class="space-x-6 font-medium hidden md:flex">
     <a href="#home" class="scroll-link hover:text-yellow-400">Home</a>
     <a href="#about" class="scroll-link hover:text-yellow-400">About</a>
     <a href="#modes" class="scroll-link hover:text-yellow-400">Modes</a>
@@ -31,13 +31,11 @@
 </nav>
 
 <!-- HERO -->
-<section id="home" class="hero-section relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden">
+<section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden bg-black">
   <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-80 mb-6">
-  <h1 class="hero-title font-poppins text-7xl font-bold uppercase mb-6">
-    GROW. FIGHT. RISE.
-  </h1>
-  <p class="hero-subtitle text-xl md:text-2xl max-w-2xl mb-10">
-    Welcome to <span class="font-semibold">RadicleMC Lifesteal</span> — grow stronger with every battle and every heart you claim.
+  <h1 class="font-poppins text-7xl font-bold uppercase mb-6 gradient-text">GROW. FIGHT. RISE.</h1>
+  <p class="text-xl md:text-2xl max-w-2xl mb-10 gradient-text-alt">
+    Welcome to <span class="font-semibold text-yellow-400">RadicleMC Lifesteal</span> — grow stronger with every battle and every heart you claim.
   </p>
 
   <div class="flex flex-wrap justify-center gap-4 relative z-10">
@@ -46,31 +44,31 @@
   </div>
 
   <div class="mt-14 relative z-10">
-    <div class="player-count-display relative px-6 py-2 rounded-full font-bold flex items-center shadow-md">
+    <div id="playerCount" class="player-count-display">
       <span class="inline-block w-3 h-3 bg-red-500 rounded-full mr-2 animate-ping"></span>
-      <span id="playerCount">Loading...</span>
+      0 Players Online
     </div>
   </div>
 
   <!-- Floating icons -->
-  <i data-feather="heart" class="floating-icon" style="color:#FF4D4D; left:20%; top:70%; width:30px; height:30px;"></i>
-  <i data-feather="sword" class="floating-icon" style="color:#FFD700; left:50%; top:80%; width:30px; height:30px; animation-delay:1s;"></i>
-  <i data-feather="star" class="floating-icon" style="color:#FFB347; left:70%; top:75%; width:25px; height:25px; animation-delay:2s;"></i>
+  <i data-feather="heart" class="floating-icon" style="left:20%; top:70%; width:30px; height:30px; color:#FF4D4D;"></i>
+  <i data-feather="sword" class="floating-icon" style="left:50%; top:80%; width:30px; height:30px; color:#FFD700; animation-delay:1s;"></i>
+  <i data-feather="star" class="floating-icon" style="left:70%; top:75%; width:25px; height:25px; color:#FFB347; animation-delay:2s;"></i>
 </section>
 
 <!-- PLAY NOW MODAL -->
 <div id="modal" class="modal-bg">
   <div class="modal-content">
     <button id="closeModal" class="modal-close-btn"><i data-feather="x" class="w-6 h-6"></i></button>
-    <h2 class="font-bold text-2xl mb-4">Connect to RadicleMC</h2>
-    <p class="mb-4">Copy the server IP to join:</p>
-    <input id="serverIp" type="text" value="nl-01.freezehost.pro:11630" readonly>
+    <h2 class="font-bold text-2xl mb-4 text-brown-dark">Connect to RadicleMC</h2>
+    <p class="mb-4 text-brown-light">Copy the server IP to join:</p>
+    <input id="serverIp" type="text" value="nl-01.freezehost.pro:11630" readonly class="w-full px-3 py-2 border border-yellow-500 rounded-lg text-center mb-4 bg-yellow-50 text-yellow-700">
     <button id="copyBtn" class="btn-gold w-full flex justify-center items-center"><i data-feather="copy" class="mr-2"></i> Copy IP</button>
   </div>
 </div>
 
 <!-- ABOUT / FEATURES -->
-<section id="about" class="py-24 text-center">
+<section id="about" class="py-24 text-center bg-black">
   <h2 class="section-title">The Ultimate Lifesteal Experience</h2>
   <p class="section-subtitle">
     RadicleMC is a competitive Lifesteal network where every hit counts, every kill matters, and every heart fuels your rise to power.
@@ -78,22 +76,22 @@
 
   <div class="grid md:grid-cols-4 gap-10 mt-16">
     <div class="feature-card">
-      <i data-feather="heart" class="w-10 h-10 mb-4 mx-auto feature-icon" style="color:#FF4D4D;"></i>
+      <i data-feather="heart" class="feature-icon w-10 h-10 mb-4 mx-auto"></i>
       <h3>Lifesteal Combat</h3>
       <p>Steal hearts from enemies and grow stronger every fight.</p>
     </div>
     <div class="feature-card">
-      <i data-feather="users" class="w-10 h-10 mb-4 mx-auto feature-icon" style="color:#FFA500;"></i>
+      <i data-feather="users" class="feature-icon w-10 h-10 mb-4 mx-auto"></i>
       <h3>Duels & Clans</h3>
       <p>Form clans and fight in dynamic multiplayer battles.</p>
     </div>
     <div class="feature-card">
-      <i data-feather="gift" class="w-10 h-10 mb-4 mx-auto feature-icon" style="color:#FFD700;"></i>
+      <i data-feather="gift" class="feature-icon w-10 h-10 mb-4 mx-auto"></i>
       <h3>Crates & Rewards</h3>
       <p>Earn rare loot and exclusive items through challenges.</p>
     </div>
     <div class="feature-card">
-      <i data-feather="award" class="w-10 h-10 mb-4 mx-auto feature-icon" style="color:#DAA520;"></i>
+      <i data-feather="award" class="feature-icon w-10 h-10 mb-4 mx-auto"></i>
       <h3>Seasonal Leaderboards</h3>
       <p>Climb the ranks and prove your dominance each season.</p>
     </div>
@@ -101,21 +99,21 @@
 </section>
 
 <!-- GAME MODES -->
-<section id="modes" class="py-24 text-center">
+<section id="modes" class="py-24 text-center bg-black">
   <h2 class="section-title">Game Modes</h2>
   <div class="grid md:grid-cols-3 gap-8 mt-12">
     <div class="game-mode-card">
-      <i data-feather="users" class="w-12 h-12 mb-4 mx-auto feature-icon" style="color:#FFA500;"></i>
+      <i data-feather="users" class="w-12 h-12 mb-4 mx-auto"></i>
       <h3>PvP Arena</h3>
       <p>Every player fights for dominance in open PvP battles.</p>
     </div>
     <div class="game-mode-card">
-      <i data-feather="activity" class="w-12 h-12 mb-4 mx-auto feature-icon" style="color:#FFD700;"></i>
+      <i data-feather="activity" class="w-12 h-12 mb-4 mx-auto"></i>
       <h3>Crystal PvP</h3>
       <p>Collect crystals, gain power, and battle other players for rewards.</p>
     </div>
     <div class="game-mode-card">
-      <i data-feather="map" class="w-12 h-12 mb-4 mx-auto feature-icon" style="color:#DAA520;"></i>
+      <i data-feather="map" class="w-12 h-12 mb-4 mx-auto"></i>
       <h3>Clan Wars</h3>
       <p>Team up with your clan and dominate rival clans in strategic battles.</p>
     </div>
@@ -123,7 +121,7 @@
 </section>
 
 <!-- COMMUNITY -->
-<section id="community" class="py-24 text-center">
+<section id="community" class="py-24 text-center bg-black">
   <h2 class="section-title">Join Our Thriving Community</h2>
   <div class="grid md:grid-cols-2 gap-8 mt-12 max-w-3xl mx-auto">
     <div class="community-card">
@@ -139,10 +137,10 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="footer text-center">
+<footer class="footer bg-black text-center">
   <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-20 mx-auto mb-4">
-  <p class="footer-text">RadicleMC Lifesteal PvP Network — grow stronger with every battle and every heart you claim.</p>
-  <p class="footer-copy">&copy; 2025 RadicleMC. All rights reserved.</p>
+  <p class="text-yellow-700 mb-6">RadicleMC Lifesteal PvP Network — grow stronger with every battle and every heart you claim.</p>
+  <p class="text-yellow-600 mt-6 text-sm">&copy; 2025 RadicleMC. All rights reserved.</p>
 </footer>
 
 <script src="script.js"></script>
