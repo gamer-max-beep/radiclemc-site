@@ -10,13 +10,26 @@ document.querySelectorAll('.scroll-link').forEach(link=>{
   });
 });
 
-// Random Player count
-function updatePlayerCount(){
-  const count = Math.floor(Math.random()*1000 + 200);
-  document.getElementById('playerCount').textContent = count + " Players Online";
+// Fetch live Player count
+const playerCountEl = document.getElementById('playerCount');
+const serverIP = "nl-01.freezehost.pro:11630";
+
+async function updatePlayerCount() {
+  try {
+    const response = await fetch(`https://api.mcsrvstat.us/2/${serverIP}`);
+    const data = await response.json();
+    if(data.online) {
+      playerCountEl.textContent = `${data.players.online} Players Online`;
+    } else {
+      playerCountEl.textContent = "Server Offline";
+    }
+  } catch(err) {
+    playerCountEl.textContent = "Server Offline";
+    console.error(err);
+  }
 }
 updatePlayerCount();
-setInterval(updatePlayerCount, 5000);
+setInterval(updatePlayerCount, 10000);
 
 // Modal
 const modal = document.getElementById('modal');
@@ -48,8 +61,8 @@ class Particle{
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
     this.size = Math.random() * 3 + 1;
-    this.speedX = (Math.random() - 0.5) * 1.5;
-    this.speedY = (Math.random() - 0.5) * 1.5;
+    this.speedX = (Math.random() - 0.5) * 0.5; // slower speed
+    this.speedY = (Math.random() - 0.5) * 0.5; // slower speed
     this.color = 'rgba(255,215,0,0.7)'; // gold particles
   }
   update(){
