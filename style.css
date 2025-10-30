@@ -1,4 +1,21 @@
+/* Body & general */
+body {
+  font-family: 'Inter', sans-serif;
+  background: #000; /* pure black background */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  color: #fff;
+}
+
 /* Card styles */
+.cards {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .feature-card, .game-mode-card {
   border-radius: 1rem;
   padding: 1.5rem;
@@ -9,7 +26,7 @@
 
 .feature-card:hover, .game-mode-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(218, 165, 32, 0.5); /* yellow glow on hover */
+  box-shadow: 0 0 20px rgba(139, 69, 19, 0.4); /* subtle brown glow on hover */
 }
 
 /* Icons inside cards */
@@ -18,13 +35,11 @@
   height: 40px;
   margin-bottom: 12px;
   color: #8B4513; /* dark brown */
-  filter: drop-shadow(0 0 6px #FFD700); /* yellow glow effect */
 }
 
 /* Titles in cards */
 .feature-card h3, .game-mode-card h3 {
   color: #8B4513; /* dark brown */
-  text-shadow: 0 0 4px #FFD700; /* yellow glow */
   margin-bottom: 6px;
   font-weight: 700;
 }
@@ -32,7 +47,45 @@
 /* Descriptions in cards */
 .feature-card p, .game-mode-card p {
   color: #A0522D; /* lighter brown */
-  text-shadow: 0 0 3px #FFD700; /* subtle yellow glow */
   font-size: 0.95rem;
   line-height: 1.5rem;
+}
+
+/* Community cards */
+.community-cards div {
+  background: #FFF8DC;
+  padding: 2rem;
+  border-radius: 1rem;
+  color: #8B4513;
+}
+
+/* Buttons */
+button, .discord-btn {
+  background: linear-gradient(90deg, #DAA520, #B8860B);
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+button:hover, .discord-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(218, 165, 32, 0.6);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: #DAA520;
+}
+
+footer img {
+  height: 60px;
+  margin-bottom: 1rem;
 }
