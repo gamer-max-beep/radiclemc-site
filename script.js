@@ -1,4 +1,4 @@
-// Feather Icons
+// Feather icons
 feather.replace();
 
 // Smooth scroll
@@ -22,27 +22,26 @@ document.getElementById('copyBtn').addEventListener('click', ()=>{
   alert('Server IP copied!');
 });
 
-// Live Player Count with offline detection
+// Random or live player count with offline check
 async function updatePlayerCount() {
+  const countEl = document.getElementById('playerCount');
   try {
-    const response = await fetch("https://api.mcsrvstat.us/2/nl-01.freezehost.pro:11630");
-    const data = await response.json();
-    const playerCountEl = document.getElementById('playerCount');
-
-    if(data.online){
-      playerCountEl.textContent = data.players.online + " Players Online";
-      playerCountEl.style.color = "#FFD700";
+    const res = await fetch("https://api.mcsrvstat.us/2/nl-01.freezehost.pro:11630");
+    const data = await res.json();
+    if(data.online) {
+      countEl.textContent = `${data.players.online} Players Online`;
     } else {
-      playerCountEl.textContent = "Server Offline";
-      playerCountEl.style.color = "#FF4500";
+      countEl.textContent = `Server Offline`;
     }
-  } catch(err){
-    console.error(err);
-    const playerCountEl = document.getElementById('playerCount');
-    playerCountEl.textContent = "Server Offline";
-    playerCountEl.style.color = "#FF4500";
+  } catch(e) {
+    countEl.textContent = `Server Offline`;
   }
 }
-
 updatePlayerCount();
-setInterval(updatePlayerCount,15000);
+setInterval(updatePlayerCount, 10000);
+
+// Dynamic icon colors
+document.querySelectorAll('.feature-icon').forEach((icon,index)=>{
+  const colors = ["#FF4D4D","#FFA500","#FFD700","#DAA520","#ADFF2F","#00CED1"];
+  icon.style.color = colors[index % colors.length];
+});
