@@ -32,11 +32,14 @@
 
 <!-- HERO -->
 <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden">
-  <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-80 mb-6">
-  <h1 class="font-poppins text-7xl font-bold uppercase mb-6" style="background: linear-gradient(90deg, #FFD700, #B8860B); -webkit-background-clip: text; color: transparent;">
+  <!-- Particles canvas -->
+  <canvas id="particles"></canvas>
+
+  <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-80 mb-6 relative z-10">
+  <h1 class="font-poppins text-7xl font-bold uppercase mb-6 relative z-10" style="background: linear-gradient(90deg, #FFD700, #B8860B); -webkit-background-clip: text; color: transparent;">
     GROW. FIGHT. RISE.
   </h1>
-  <p class="text-xl md:text-2xl max-w-2xl mb-10 relative" style="background: linear-gradient(90deg, #DAA520, #FFD700); -webkit-background-clip: text; color: transparent;">
+  <p class="text-xl md:text-2xl max-w-2xl mb-10 relative z-10" style="background: linear-gradient(90deg, #DAA520, #FFD700); -webkit-background-clip: text; color: transparent;">
     Welcome to <span class="font-semibold" style="color:#FFD700">RadicleMC Lifesteal</span> — grow stronger with every battle and every heart you claim.
   </p>
 
@@ -53,9 +56,9 @@
   </div>
 
   <!-- Floating icons -->
-  <i data-feather="heart" class="floating-icon" style="color:#FF4D4D; left:20%; top:70%; width:30px; height:30px;"></i>
-  <i data-feather="sword" class="floating-icon" style="color:#FFD700; left:50%; top:80%; width:30px; height:30px; animation-delay:1s;"></i>
-  <i data-feather="star" class="floating-icon" style="color:#FFB347; left:70%; top:75%; width:25px; height:25px; animation-delay:2s;"></i>
+  <i data-feather="heart" class="floating-icon relative z-10" style="color:#FF4D4D; left:20%; top:70%; width:30px; height:30px;"></i>
+  <i data-feather="sword" class="floating-icon relative z-10" style="color:#FFD700; left:50%; top:80%; width:30px; height:30px; animation-delay:1s;"></i>
+  <i data-feather="star" class="floating-icon relative z-10" style="color:#FFB347; left:70%; top:75%; width:25px; height:25px; animation-delay:2s;"></i>
 </section>
 
 <!-- PLAY NOW MODAL -->
@@ -69,13 +72,12 @@
   </div>
 </div>
 
-<!-- ABOUT / FEATURES -->
+<!-- ABOUT -->
 <section id="about" class="py-24 text-center">
   <h2 class="font-poppins text-4xl font-bold uppercase mb-6" style="background: linear-gradient(90deg,#FFD700,#B8860B);-webkit-background-clip:text;color:transparent;">The Ultimate Lifesteal Experience</h2>
   <p class="max-w-3xl mx-auto text-lg mb-12" style="color:#D2B48C;">
     RadicleMC is a competitive Lifesteal network where every hit counts, every kill matters, and every heart fuels your rise to power.
   </p>
-
   <div class="grid md:grid-cols-4 gap-10 mt-16">
     <div class="feature-card" style="background: linear-gradient(135deg,#FFF8DC,#FFE4B5);">
       <i data-feather="heart" class="w-10 h-10 mb-4 mx-auto" style="color:#FF4D4D;"></i>
@@ -135,11 +137,11 @@
       <div style="color:#A0522D;">Hearts Stolen</div>
     </div>
   </div>
-  <a href="https://discord.gg/FsC2cz4cp4" target="_blank" class="btn-gold mt-12 inline-flex items-center"><i data-feather="message-circle" class="mr-2"></i> Join Our Discord</a>
+  <a href="https://discord.gg/FsC2cz4cp4" target="_blank" class="btn-gold mt-12 inline-flex items-center relative z-10"><i data-feather="message-circle" class="mr-2"></i> Join Our Discord</a>
 </section>
 
 <!-- FOOTER -->
-<footer class="py-12 text-center">
+<footer class="py-12 text-center relative z-10">
   <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-20 mx-auto mb-4">
   <p class="text-yellow-700 mb-6">RadicleMC Lifesteal PvP Network — grow stronger with every battle and every heart you claim.</p>
   <p class="text-yellow-600 mt-6 text-sm">&copy; 2025 RadicleMC. All rights reserved.</p>
