@@ -3,124 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RadicleMC | Lifesteal PvP Network</title>
-<link rel="stylesheet" href="style.css">
+<title>RadicleMC | Player Count</title>
+<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html, body { margin:0; padding:0; height:100%; background:black; overflow:hidden; font-family:Inter,sans-serif; }
+
+/* Canvas particles */
+canvas#particles {
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+}
+
+/* Player count container */
+.player-container {
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#playerCount {
+  color:#DAA520;
+  font-size:2rem;
+  font-weight:700;
+  text-shadow:0 0 10px #FFD700, 0 0 20px #FFD700;
+}
+</style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav id="navbar">
-  <div class="nav-left">
-    <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="logo">
-    <span class="nav-title">RadicleMC</span>
-  </div>
-  <div class="nav-links">
-    <a href="#home" class="scroll-link">Home</a>
-    <a href="#about" class="scroll-link">About</a>
-    <a href="#modes" class="scroll-link">Game Modes</a>
-    <a href="#community" class="scroll-link">Community</a>
-    <a href="https://discord.gg/FsC2cz4cp4" target="_blank"><i data-feather="message-circle"></i> Discord</a>
-  </div>
-</nav>
+<canvas id="particles"></canvas>
 
-<!-- HERO -->
-<section id="home" class="hero">
-  <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="hero-logo">
-  <h1 class="hero-title">GROW. FIGHT. RISE.</h1>
-  <p class="hero-subtitle">Welcome to <span>RadicleMC Lifesteal</span> — grow stronger with every battle and every heart you claim.</p>
-  <div class="hero-buttons">
-    <button id="playNowBtn"><i data-feather="play"></i> Play Now</button>
-    <a href="https://discord.gg/FsC2cz4cp4" target="_blank" class="discord-btn"><i data-feather="message-circle"></i> Join Discord</a>
-  </div>
-  <div class="player-count" id="playerCount">Loading players...</div>
-</section>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <button id="closeModal"><i data-feather="x"></i></button>
-    <h2>Connect to RadicleMC</h2>
-    <p>Copy the server IP to join:</p>
-    <input id="serverIp" type="text" value="nl-01.freezehost.pro:11630" readonly>
-    <button id="copyBtn"><i data-feather="copy"></i> Copy IP</button>
-  </div>
+<div class="player-container">
+  <div id="playerCount">Loading players...</div>
 </div>
 
-<!-- ABOUT -->
-<section id="about" class="section">
-  <h2>The Ultimate Lifesteal Experience</h2>
-  <p>RadicleMC is a competitive Lifesteal network where every hit counts, every kill matters, and every heart fuels your rise to power.</p>
-  <div class="cards">
-    <div class="feature-card">
-      <i data-feather="heart"></i>
-      <h3>Lifesteal Combat</h3>
-      <p>Steal hearts from enemies and grow stronger every fight.</p>
-    </div>
-    <div class="feature-card">
-      <i data-feather="users"></i>
-      <h3>Duels & Clans</h3>
-      <p>Form clans and fight in dynamic multiplayer battles.</p>
-    </div>
-    <div class="feature-card">
-      <i data-feather="gift"></i>
-      <h3>Crates & Rewards</h3>
-      <p>Earn rare loot and exclusive items through challenges.</p>
-    </div>
-    <div class="feature-card">
-      <i data-feather="award"></i>
-      <h3>Seasonal Leaderboards</h3>
-      <p>Climb the ranks and prove your dominance each season.</p>
-    </div>
-  </div>
-</section>
+<script>
+// Live Player Count
+const playerCountEl = document.getElementById('playerCount');
+const serverIP = "nl-01.freezehost.pro:11630";
 
-<!-- GAME MODES -->
-<section id="modes" class="section">
-  <h2>Game Modes</h2>
-  <div class="cards">
-    <div class="game-mode-card">
-      <i data-feather="users"></i>
-      <h3>PvP Arena</h3>
-      <p>Every player fights for dominance in open PvP battles.</p>
-    </div>
-    <div class="game-mode-card">
-      <i data-feather="activity"></i>
-      <h3>Crystal PvP</h3>
-      <p>Collect crystals, gain power, and battle other players for rewards.</p>
-    </div>
-    <div class="game-mode-card">
-      <i data-feather="map"></i>
-      <h3>Clan Wars</h3>
-      <p>Team up with your clan and dominate rival clans in strategic battles.</p>
-    </div>
-  </div>
-</section>
+async function updatePlayerCount() {
+  try {
+    const response = await fetch(`https://api.mcsrvstat.us/2/${serverIP}`);
+    const data = await response.json();
+    if(data.online) {
+      playerCountEl.textContent = `${data.players.online} Players Online`;
+    } else {
+      playerCountEl.textContent = "Server Offline";
+    }
+  } catch(err) {
+    playerCountEl.textContent = "Server Offline";
+    console.error(err);
+  }
+}
+updatePlayerCount();
+setInterval(updatePlayerCount, 10000);
 
-<!-- COMMUNITY -->
-<section id="community" class="section">
-  <h2>Join Our Thriving Community</h2>
-  <div class="cards community-cards">
-    <div>
-      <h3>5,000+</h3>
-      <p>Discord Members</p>
-    </div>
-    <div>
-      <h3>10M+</h3>
-      <p>Hearts Stolen</p>
-    </div>
-  </div>
-  <a href="https://discord.gg/FsC2cz4cp4" target="_blank" class="discord-btn"><i data-feather="message-circle"></i> Join Our Discord</a>
-</section>
+// Particles
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-<!-- FOOTER -->
-<footer>
-  <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="footer-logo">
-  <p>&copy; 2025 RadicleMC. All rights reserved.</p>
-</footer>
+const particlesArray = [];
+const particleCount = 80;
 
-<script src="script.js"></script>
-<script>feather.replace()</script>
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.radius = Math.random() * 2 + 1;
+    this.speedX = (Math.random() - 0.5) * 0.7;
+    this.speedY = (Math.random() - 0.5) * 0.7;
+    this.color = 'rgba(218,165,32,0.7)';
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+}
+
+function initParticles() {
+  for(let i=0;i<particleCount;i++) {
+    particlesArray.push(new Particle());
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particlesArray.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+initParticles();
+animateParticles();
+</script>
+
 </body>
 </html>
