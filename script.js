@@ -1,7 +1,7 @@
-// Feather icons
+// FEATHER ICONS
 feather.replace();
 
-// Smooth scroll
+// SMOOTH SCROLL
 document.querySelectorAll('.scroll-link').forEach(link=>{
   link.addEventListener('click', function(e){
     e.preventDefault();
@@ -9,7 +9,7 @@ document.querySelectorAll('.scroll-link').forEach(link=>{
   });
 });
 
-// Modal
+// PLAY NOW MODAL
 const modal = document.getElementById('modal');
 const playBtn = document.getElementById('playNowBtn');
 const closeModal = document.getElementById('closeModal');
@@ -22,26 +22,28 @@ document.getElementById('copyBtn').addEventListener('click', ()=>{
   alert('Server IP copied!');
 });
 
-// Random or live player count with offline check
+// RANDOM PLAYER COUNT (LIVE)
+const playerCountEl = document.getElementById('playerCount');
 async function updatePlayerCount() {
-  const countEl = document.getElementById('playerCount');
   try {
-    const res = await fetch("https://api.mcsrvstat.us/2/nl-01.freezehost.pro:11630");
+    const res = await fetch('https://api.mcstatus.io/v2/status/java/nl-01.freezehost.pro:11630');
     const data = await res.json();
     if(data.online) {
-      countEl.textContent = `${data.players.online} Players Online`;
+      playerCountEl.textContent = `${data.players.online} Players Online`;
     } else {
-      countEl.textContent = `Server Offline`;
+      playerCountEl.textContent = `Server Offline`;
     }
   } catch(e) {
-    countEl.textContent = `Server Offline`;
+    playerCountEl.textContent = 'Server Offline';
   }
 }
 updatePlayerCount();
-setInterval(updatePlayerCount, 10000);
+setInterval(updatePlayerCount, 5000);
 
-// Dynamic icon colors
-document.querySelectorAll('.feature-icon').forEach((icon,index)=>{
-  const colors = ["#FF4D4D","#FFA500","#FFD700","#DAA520","#ADFF2F","#00CED1"];
-  icon.style.color = colors[index % colors.length];
+// FLOATING ICONS STAGGER
+const floatingIcons = document.querySelectorAll('.floating-icon');
+floatingIcons.forEach((icon,i)=>{
+  icon.style.animationDelay = `${i*1.5}s`;
+  icon.style.width = `${25 + i*5}px`;
+  icon.style.height = `${25 + i*5}px`;
 });
