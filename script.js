@@ -1,6 +1,6 @@
 feather.replace();
 
-// Smooth scroll
+// Smooth scroll for navbar links
 document.querySelectorAll('.scroll-link').forEach(link=>{
   link.addEventListener('click', function(e){
     e.preventDefault();
@@ -8,12 +8,14 @@ document.querySelectorAll('.scroll-link').forEach(link=>{
   });
 });
 
-// Modal
+// Modal logic
 const modal = document.getElementById('modal');
 const playBtn = document.getElementById('playNowBtn');
 const closeModal = document.getElementById('closeModal');
+
 playBtn.addEventListener('click', ()=> modal.classList.add('active'));
 closeModal.addEventListener('click', ()=> modal.classList.remove('active'));
+
 document.getElementById('copyBtn').addEventListener('click', ()=>{
   const ip = document.getElementById('serverIp');
   ip.select();
@@ -21,13 +23,14 @@ document.getElementById('copyBtn').addEventListener('click', ()=>{
   alert('Server IP copied!');
 });
 
-// Player count fetch
+// Player count fetch (online/offline)
+const playerCountEl = document.getElementById('playerCount');
+
 async function updatePlayerCount(){
-  const playerCountEl = document.getElementById('playerCount');
   try{
     const response = await fetch('https://api.mcstatus.io/v2/status/java/nl-01.freezehost.pro:11630');
     const data = await response.json();
-    if(data.online){
+    if(data.online && data.players && data.players.online != null){
       playerCountEl.textContent = `${data.players.online} Players Online`;
     } else {
       playerCountEl.textContent = "Server Offline";
@@ -36,10 +39,12 @@ async function updatePlayerCount(){
     playerCountEl.textContent = "Server Offline";
   }
 }
+
+// Initial fetch + interval
 updatePlayerCount();
 setInterval(updatePlayerCount, 5000);
 
-// Particles
+// Particles background
 const canvas = document.getElementById('particles-js');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -59,16 +64,17 @@ function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   particles.forEach(p=>{
     p.y -= p.speed;
-    if(p.y<0) p.y = canvas.height;
+    if(p.y < 0) p.y = canvas.height;
     ctx.beginPath();
     ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle="rgba(255,215,0,0.4)";
+    ctx.fillStyle = "rgba(255,215,0,0.4)";
     ctx.fill();
   });
   requestAnimationFrame(animate);
 }
 animate();
 
+// Handle canvas resize
 window.addEventListener('resize', ()=>{
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
