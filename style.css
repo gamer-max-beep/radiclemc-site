@@ -1,7 +1,9 @@
 html::-webkit-scrollbar { width:0px; background:transparent; }
 body {
   margin:0; padding:0; font-family:Inter,sans-serif;
-  background:black; overflow-x:hidden; position:relative;
+  background:#000; /* full black background */
+  overflow-x:hidden;
+  position:relative;
 }
 
 /* Buttons */
@@ -34,11 +36,12 @@ body {
 .modal-bg.active .modal-content { transform: translateY(0); opacity:1; }
 
 /* Floating icons */
-.floating-icon { position:absolute; animation:floatUp 6s infinite; opacity:0.6; z-index:10; }
+.floating-icon { position:absolute; animation:floatUp 6s infinite; opacity:0.6; }
 @keyframes floatUp { 0% { transform: translateY(0); opacity:0.6; } 50%{opacity:1} 100% { transform: translateY(-300px); opacity:0; } }
 
-/* Particles canvas */
-#particles-js { position:fixed; width:100%; height:100%; top:0; left:0; z-index:0; pointer-events:none; }
-
-/* Sections transparent so black shows */
-section { background: transparent; }
+/* Hero text gradient */
+.hero-text {
+  background: linear-gradient(90deg, #FFD700, #B8860B);
+  -webkit-background-clip: text;
+  color: transparent;
+}
