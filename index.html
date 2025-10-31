@@ -7,65 +7,11 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-html::-webkit-scrollbar { width:0; background:transparent; }
-body { margin:0; padding:0; font-family:Inter,sans-serif; background:#0a0a0a; overflow-x:hidden; color:white; }
-
-/* Background particle container */
-#particles-bg {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  overflow: hidden; z-index: 0;
-}
-.particle {
-  position: absolute;
-  background: radial-gradient(circle, rgba(218,165,32,0.8), rgba(218,165,32,0.1));
-  border-radius: 50%;
-  opacity: 0.5;
-  animation: moveParticle 25s linear infinite;
-}
-@keyframes moveParticle {
-  0% { transform: translateY(0) translateX(0); opacity:0.6; }
-  50% { opacity:1; }
-  100% { transform: translateY(-120vh) translateX(50vw); opacity:0; }
-}
-
-/* Buttons */
-.btn-gold {
-  background: linear-gradient(90deg, #DAA520, #B8860B);
-  color: #FFF8DC; font-weight:600;
-  padding:0.8rem 1.8rem; border-radius:0.75rem;
-  display:inline-flex; align-items:center; transition:0.3s;
-  box-shadow:0 0 10px rgba(218,165,32,0.4);
-  z-index: 10;
-}
-.btn-gold:hover {
-  background: linear-gradient(90deg, #B8860B, #DAA520);
-  transform: translateY(-2px);
-  box-shadow:0 0 15px rgba(218,165,32,0.6);
-}
-
-/* Card hover */
-.feature-card, .game-mode-card, .community-card {
-  border-radius:1rem; padding:1.5rem; text-align:center;
-  transition:transform 0.3s, box-shadow 0.3s;
-}
-.feature-card:hover, .game-mode-card:hover, .community-card:hover {
-  transform:scale(1.05);
-  box-shadow:0 0 25px rgba(218,165,32,0.5);
-}
-
-/* Modal */
-.modal-bg { background: rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:0.4s; position:fixed; inset:0; display:flex; justify-content:center; align-items:center; z-index:100; }
-.modal-bg.active { opacity:1; pointer-events:auto; }
-.modal-content { transform: translateY(-20px); opacity:0; transition:all 0.4s ease; background:white; padding:2rem; border-radius:1.5rem; width:320px; text-align:center; color:black; }
-.modal-bg.active .modal-content { transform: translateY(0); opacity:1; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Background Particles -->
-<div id="particles-bg"></div>
+<canvas id="particles"></canvas>
 
 <!-- NAVBAR -->
 <nav class="fixed top-0 left-0 w-full z-50 px-8 py-5 flex justify-between items-center bg-transparent">
@@ -87,31 +33,36 @@ body { margin:0; padding:0; font-family:Inter,sans-serif; background:#0a0a0a; ov
 </nav>
 
 <!-- HERO -->
-<section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden z-10">
-  <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-80 mb-6 relative z-10">
-  <h1 class="font-poppins text-7xl font-bold uppercase mb-6" style="background:linear-gradient(90deg,#FFD700,#B8860B);-webkit-background-clip:text;color:transparent;">
+<section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden">
+  <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-80 mb-6">
+  <h1 class="font-poppins text-7xl font-bold uppercase mb-6" style="background: linear-gradient(90deg, #FFD700, #B8860B); -webkit-background-clip: text; color: transparent;">
     GROW. FIGHT. RISE.
   </h1>
-  <p class="text-xl md:text-2xl max-w-2xl mb-10" style="background:linear-gradient(90deg,#DAA520,#FFD700);-webkit-background-clip:text;color:transparent;">
+  <p class="text-xl md:text-2xl max-w-2xl mb-10 relative" style="background: linear-gradient(90deg, #DAA520, #FFD700); -webkit-background-clip: text; color: transparent;">
     Welcome to <span class="font-semibold" style="color:#FFD700">RadicleMC Lifesteal</span> — grow stronger with every battle and every heart you claim.
   </p>
 
-  <div class="flex flex-wrap justify-center gap-4 z-10">
+  <div class="flex flex-wrap justify-center gap-4 relative z-10">
     <button id="playNowBtn" class="btn-gold"><i data-feather="play" class="mr-2"></i> Play Now</button>
     <a href="https://discord.gg/FsC2cz4cp4" target="_blank" class="btn-gold"><i data-feather="message-circle" class="mr-2"></i> Join Discord</a>
   </div>
 
-  <div class="mt-14 z-10">
+  <div class="mt-14 relative z-10">
     <div class="relative px-6 py-2 bg-yellow-700 text-yellow-50 rounded-full font-bold flex items-center shadow-md">
       <span class="inline-block w-3 h-3 bg-red-500 rounded-full mr-2 animate-ping"></span>
       <span id="playerCount">Loading...</span>
     </div>
   </div>
+
+  <!-- Floating icons -->
+  <i data-feather="heart" class="floating-icon" style="color:#FF4D4D; left:20%; top:70%; width:30px; height:30px;"></i>
+  <i data-feather="sword" class="floating-icon" style="color:#FFD700; left:50%; top:80%; width:30px; height:30px; animation-delay:1s;"></i>
+  <i data-feather="star" class="floating-icon" style="color:#FFB347; left:70%; top:75%; width:25px; height:25px; animation-delay:2s;"></i>
 </section>
 
-<!-- MODAL -->
+<!-- PLAY NOW MODAL -->
 <div id="modal" class="modal-bg">
-  <div class="modal-content relative">
+  <div class="modal-content">
     <button id="closeModal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800"><i data-feather="x" class="w-6 h-6"></i></button>
     <h2 class="font-bold text-2xl mb-4" style="color:#8B4513;">Connect to RadicleMC</h2>
     <p class="mb-4" style="color:#D2B48C;">Copy the server IP to join:</p>
@@ -120,56 +71,106 @@ body { margin:0; padding:0; font-family:Inter,sans-serif; background:#0a0a0a; ov
   </div>
 </div>
 
-<!-- OTHER SECTIONS OMITTED FOR BREVITY (same as before)... -->
+<!-- ABOUT / FEATURES -->
+<section id="about" class="py-24 text-center">
+  <h2 class="font-poppins text-4xl font-bold uppercase mb-6" style="background: linear-gradient(90deg,#FFD700,#B8860B);-webkit-background-clip:text;color:transparent;">The Ultimate Lifesteal Experience</h2>
+  <p class="max-w-3xl mx-auto text-lg mb-12" style="color:#D2B48C;">
+    RadicleMC is a competitive Lifesteal network where every hit counts, every kill matters, and every heart fuels your rise to power.
+  </p>
 
+  <div class="grid md:grid-cols-4 gap-10 mt-16">
+    <div class="feature-card" style="background: linear-gradient(135deg,#FFF8DC,#FFE4B5);">
+      <i data-feather="heart" class="w-10 h-10 mb-4 mx-auto" style="color:#FF4D4D;"></i>
+      <h3 class="font-bold text-xl mb-2" style="color:#8B4513;">Lifesteal Combat</h3>
+      <p style="color:#A0522D;">Steal hearts from enemies and grow stronger every fight.</p>
+    </div>
+    <div class="feature-card" style="background: linear-gradient(135deg,#FAFAD2,#FFFACD);">
+      <i data-feather="users" class="w-10 h-10 mb-4 mx-auto" style="color:#FFA500;"></i>
+      <h3 class="font-bold text-xl mb-2" style="color:#8B4513;">Duels & Clans</h3>
+      <p style="color:#A0522D;">Form clans and fight in dynamic multiplayer battles.</p>
+    </div>
+    <div class="feature-card" style="background: linear-gradient(135deg,#FFEFD5,#FFE4C4);">
+      <i data-feather="gift" class="w-10 h-10 mb-4 mx-auto" style="color:#FFD700;"></i>
+      <h3 class="font-bold text-xl mb-2" style="color:#8B4513;">Crates & Rewards</h3>
+      <p style="color:#A0522D;">Earn rare loot and exclusive items through challenges.</p>
+    </div>
+    <div class="feature-card" style="background: linear-gradient(135deg,#FFF8DC,#FAF0E6);">
+      <i data-feather="award" class="w-10 h-10 mb-4 mx-auto" style="color:#DAA520;"></i>
+      <h3 class="font-bold text-xl mb-2" style="color:#8B4513;">Seasonal Leaderboards</h3>
+      <p style="color:#A0522D;">Climb the ranks and prove your dominance each season.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GAME MODES -->
+<section id="modes" class="py-24 text-center">
+  <h2 class="font-poppins text-4xl font-bold uppercase mb-6" style="background: linear-gradient(90deg,#FFD700,#B8860B);-webkit-background-clip:text;color:transparent;">Game Modes</h2>
+  <div class="grid md:grid-cols-3 gap-8 mt-12">
+    <div class="game-mode-card" style="background: linear-gradient(135deg,#FFF8DC,#FFE4B5);">
+      <i data-feather="users" class="w-12 h-12 mb-4 mx-auto" style="color:#FFA500;"></i>
+      <h3 class="font-bold text-2xl mb-2" style="color:#8B4513;">PvP Arena</h3>
+      <p style="color:#A0522D;">Every player fights for dominance in open PvP battles.</p>
+    </div>
+    <div class="game-mode-card" style="background: linear-gradient(135deg,#FAFAD2,#FFFACD);">
+      <i data-feather="activity" class="w-12 h-12 mb-4 mx-auto" style="color:#FFD700;"></i>
+      <h3 class="font-bold text-2xl mb-2" style="color:#8B4513;">Crystal PvP</h3>
+      <p style="color:#A0522D;">Collect crystals, gain power, and battle other players for rewards.</p>
+    </div>
+    <div class="game-mode-card" style="background: linear-gradient(135deg,#FFEFD5,#FFE4C4);">
+      <i data-feather="map" class="w-12 h-12 mb-4 mx-auto" style="color:#DAA520;"></i>
+      <h3 class="font-bold text-2xl mb-2" style="color:#8B4513;">Clan Wars</h3>
+      <p style="color:#A0522D;">Team up with your clan and dominate rival clans in strategic battles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community" class="py-24 text-center">
+  <h2 class="font-poppins text-4xl font-bold uppercase mb-6" style="background: linear-gradient(90deg,#FFD700,#B8860B);-webkit-background-clip:text;color:transparent;">Join Our Thriving Community</h2>
+  <div class="grid md:grid-cols-2 gap-8 mt-12 max-w-3xl mx-auto">
+    <div class="community-card" style="background:#FFF8DC; padding:2rem; border-radius:1rem;">
+      <div class="text-3xl font-bold mb-2" style="color:#8B4513;">5,000+</div>
+      <div style="color:#A0522D;">Discord Members</div>
+    </div>
+    <div class="community-card" style="background:#FAFAD2; padding:2rem; border-radius:1rem;">
+      <div class="text-3xl font-bold mb-2" style="color:#8B4513;">10M+</div>
+      <div style="color:#A0522D;">Hearts Stolen</div>
+    </div>
+  </div>
+  <a href="https://discord.gg/FsC2cz4cp4" target="_blank" class="btn-gold mt-12 inline-flex items-center"><i data-feather="message-circle" class="mr-2"></i> Join Our Discord</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-12 text-center">
+  <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-20 mx-auto mb-4">
+  <p class="text-yellow-700 mb-6">RadicleMC Lifesteal PvP Network — grow stronger with every battle and every heart you claim.</p>
+  <p class="text-yellow-600 mt-6 text-sm">&copy; 2025 RadicleMC. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
 <script>
 feather.replace();
 
-/* ==== Smooth Scroll ==== */
+// Smooth scroll
 document.querySelectorAll('.scroll-link').forEach(link=>{
-  link.addEventListener('click', e=>{
+  link.addEventListener('click', function(e){
     e.preventDefault();
-    document.querySelector(link.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+    document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
   });
 });
 
-/* ==== Modal ==== */
-const modal=document.getElementById('modal');
-document.getElementById('playNowBtn').onclick=()=>modal.classList.add('active');
-document.getElementById('closeModal').onclick=()=>modal.classList.remove('active');
-document.getElementById('copyBtn').onclick=()=>{
-  const ip=document.getElementById('serverIp');
+// Modal
+const modal = document.getElementById('modal');
+const playBtn = document.getElementById('playNowBtn');
+const closeModal = document.getElementById('closeModal');
+playBtn.addEventListener('click', ()=> modal.classList.add('active'));
+closeModal.addEventListener('click', ()=> modal.classList.remove('active'));
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  const ip = document.getElementById('serverIp');
+  ip.select();
   navigator.clipboard.writeText(ip.value);
   alert('Server IP copied!');
-};
-
-/* ==== Background Particles ==== */
-const particlesContainer=document.getElementById('particles-bg');
-for(let i=0;i<60;i++){
-  const p=document.createElement('div');
-  p.className='particle';
-  const size=Math.random()*6+2;
-  p.style.width=p.style.height=size+'px';
-  p.style.left=Math.random()*100+'%';
-  p.style.top=Math.random()*100+'%';
-  p.style.animationDuration=20+Math.random()*10+'s';
-  p.style.animationDelay=Math.random()*20+'s';
-  particlesContainer.appendChild(p);
-}
-
-/* ==== Real Player Count ==== */
-async function updatePlayerCount(){
-  try{
-    const res=await fetch(`https://api.mcstatus.io/v2/status/java/nl-01.freezehost.pro:11630`);
-    const data=await res.json();
-    const online=data.players?.online??0;
-    document.getElementById('playerCount').textContent=online+" Players Online";
-  }catch{
-    document.getElementById('playerCount').textContent="Server Offline";
-  }
-}
-updatePlayerCount();
-setInterval(updatePlayerCount, 10000); // refresh every 10s
+});
 </script>
 </body>
 </html>
