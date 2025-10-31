@@ -1,6 +1,10 @@
-/* Scrollbar */
-html::-webkit-scrollbar { width:0px; background:transparent; }
-body { margin:0; padding:0; font-family:Inter,sans-serif; background:transparent; overflow-x:hidden; }
+/* General */
+html, body { margin:0; padding:0; font-family:Inter,sans-serif; background:black; overflow-x:hidden; height:100%; }
+.gradient-text {
+  background: linear-gradient(90deg, #FFD700, #B8860B);
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
 /* Buttons */
 .btn-gold {
@@ -16,7 +20,7 @@ body { margin:0; padding:0; font-family:Inter,sans-serif; background:transparent
   box-shadow:0 0 15px rgba(218,165,32,0.6);
 }
 
-/* Cards hover glow + zoom */
+/* Cards */
 .feature-card, .game-mode-card, .community-card {
   border-radius:1rem; padding:1.5rem; text-align:center; transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -28,45 +32,15 @@ body { margin:0; padding:0; font-family:Inter,sans-serif; background:transparent
 /* Modal */
 .modal-bg { background: rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:0.4s; position:fixed; inset:0; display:flex; justify-content:center; align-items:center; z-index:100; }
 .modal-bg.active { opacity:1; pointer-events:auto; }
-.modal-content { transform: translateY(-20px); opacity:0; transition:all 0.4s ease; background:white; padding:2rem; border-radius:1.5rem; width:320px; text-align:center; position:relative; }
+.modal-content { transform: translateY(-20px); opacity:0; transition:all 0.4s ease; background:white; padding:2rem; border-radius:1.5rem; width:320px; text-align:center; }
 .modal-bg.active .modal-content { transform: translateY(0); opacity:1; }
 
 /* Floating icons */
 .floating-icon { position:absolute; animation:floatUp 6s infinite; opacity:0.6; }
+.heart-icon { color:#FF4D4D; left:20%; top:70%; width:30px; height:30px; }
+.sword-icon { color:#FFD700; left:50%; top:80%; width:30px; height:30px; animation-delay:1s; }
+.star-icon { color:#FFB347; left:70%; top:75%; width:25px; height:25px; animation-delay:2s; }
 @keyframes floatUp { 0% { transform: translateY(0); opacity:0.6; } 50%{opacity:1} 100% { transform: translateY(-300px); opacity:0; } }
 
-/* Particle canvas */
-#particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-/* Make sections visible above particles */
-section, footer, nav {
-  position: relative;
-  z-index: 1;
-}
-
-/* Hero title gradient */
-h1, h2 {
-  background: linear-gradient(90deg, #FFD700, #B8860B);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-/* Section paragraphs color */
-section p {
-  color: #D2B48C;
-}
-
-/* Cards inner text colors */
-.feature-card h3, .game-mode-card h3, .community-card h3 {
-  color: #8B4513;
-}
-.feature-card p, .game-mode-card p, .community-card div {
-  color: #A0522D;
-}
+/* Particles canvas */
+#particles-js { position:fixed; width: 100%; height: 100%; top:0; left:0; z-index:0; pointer-events:none; }
