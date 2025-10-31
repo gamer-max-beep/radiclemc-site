@@ -1,9 +1,7 @@
-/* General */
-html, body { margin:0; padding:0; font-family:Inter,sans-serif; background:black; overflow-x:hidden; height:100%; }
-.gradient-text {
-  background: linear-gradient(90deg, #FFD700, #B8860B);
-  -webkit-background-clip: text;
-  color: transparent;
+html::-webkit-scrollbar { width:0px; background:transparent; }
+body {
+  margin:0; padding:0; font-family:Inter,sans-serif;
+  background:black; overflow-x:hidden; position:relative;
 }
 
 /* Buttons */
@@ -20,7 +18,7 @@ html, body { margin:0; padding:0; font-family:Inter,sans-serif; background:black
   box-shadow:0 0 15px rgba(218,165,32,0.6);
 }
 
-/* Cards */
+/* Cards hover glow + zoom */
 .feature-card, .game-mode-card, .community-card {
   border-radius:1rem; padding:1.5rem; text-align:center; transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -36,11 +34,11 @@ html, body { margin:0; padding:0; font-family:Inter,sans-serif; background:black
 .modal-bg.active .modal-content { transform: translateY(0); opacity:1; }
 
 /* Floating icons */
-.floating-icon { position:absolute; animation:floatUp 6s infinite; opacity:0.6; }
-.heart-icon { color:#FF4D4D; left:20%; top:70%; width:30px; height:30px; }
-.sword-icon { color:#FFD700; left:50%; top:80%; width:30px; height:30px; animation-delay:1s; }
-.star-icon { color:#FFB347; left:70%; top:75%; width:25px; height:25px; animation-delay:2s; }
+.floating-icon { position:absolute; animation:floatUp 6s infinite; opacity:0.6; z-index:10; }
 @keyframes floatUp { 0% { transform: translateY(0); opacity:0.6; } 50%{opacity:1} 100% { transform: translateY(-300px); opacity:0; } }
 
 /* Particles canvas */
-#particles-js { position:fixed; width: 100%; height: 100%; top:0; left:0; z-index:0; pointer-events:none; }
+#particles-js { position:fixed; width:100%; height:100%; top:0; left:0; z-index:0; pointer-events:none; }
+
+/* Sections transparent so black shows */
+section { background: transparent; }
