@@ -4,53 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RadicleMC | Lifesteal PvP Network</title>
+<link rel="stylesheet" href="style.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-html::-webkit-scrollbar { width:0px; background:transparent; }
-body { margin:0; padding:0; font-family:Inter,sans-serif; background:black; overflow-x:hidden; }
-
-/* Buttons */
-.btn-gold {
-  background: linear-gradient(90deg, #DAA520, #B8860B);
-  color: #FFF8DC; font-weight:600;
-  padding:0.8rem 1.8rem; border-radius:0.75rem;
-  display:inline-flex; align-items:center; transition:0.3s;
-  box-shadow:0 0 10px rgba(218,165,32,0.4);
-}
-.btn-gold:hover {
-  background: linear-gradient(90deg, #B8860B, #DAA520);
-  transform: translateY(-2px);
-  box-shadow:0 0 15px rgba(218,165,32,0.6);
-}
-
-/* Cards hover glow + zoom */
-.feature-card, .game-mode-card, .community-card {
-  border-radius:1rem; padding:1.5rem; text-align:center; transition: transform 0.3s, box-shadow 0.3s;
-}
-.feature-card:hover, .game-mode-card:hover, .community-card:hover {
-  transform: scale(1.05);
-  box-shadow:0 0 25px rgba(218,165,32,0.5);
-}
-
-/* Modal */
-.modal-bg { background: rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:0.4s; position:fixed; inset:0; display:flex; justify-content:center; align-items:center; z-index:100; }
-.modal-bg.active { opacity:1; pointer-events:auto; }
-.modal-content { transform: translateY(-20px); opacity:0; transition:all 0.4s ease; background:white; padding:2rem; border-radius:1.5rem; width:320px; text-align:center; }
-.modal-bg.active .modal-content { transform: translateY(0); opacity:1; }
-
-/* Floating icons */
-.floating-icon { position:absolute; animation:floatUp 6s infinite; opacity:0.6; }
-@keyframes floatUp { 0% { transform: translateY(0); opacity:0.6; } 50%{opacity:1} 100% { transform: translateY(-300px); opacity:0; } }
-
-/* Particle background */
-#particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index:0; }
-</style>
 </head>
 <body>
 
-<!-- PARTICLES -->
 <canvas id="particles-js"></canvas>
 
 <!-- NAVBAR -->
@@ -75,10 +35,8 @@ body { margin:0; padding:0; font-family:Inter,sans-serif; background:black; over
 <!-- HERO -->
 <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden z-10">
   <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-80 mb-6">
-  <h1 class="font-poppins text-7xl font-bold uppercase mb-6" style="background: linear-gradient(90deg, #FFD700, #B8860B); -webkit-background-clip: text; color: transparent;">
-    GROW. FIGHT. RISE.
-  </h1>
-  <p class="text-xl md:text-2xl max-w-2xl mb-10 relative" style="background: linear-gradient(90deg, #DAA520, #FFD700); -webkit-background-clip: text; color: transparent;">
+  <h1 class="font-poppins text-7xl font-bold uppercase mb-6 gradient-text">GROW. FIGHT. RISE.</h1>
+  <p class="text-xl md:text-2xl max-w-2xl mb-10 gradient-text">
     Welcome to <span class="font-semibold" style="color:#FFD700">RadicleMC Lifesteal</span> — grow stronger with every battle and every heart you claim.
   </p>
 
@@ -95,9 +53,9 @@ body { margin:0; padding:0; font-family:Inter,sans-serif; background:black; over
   </div>
 
   <!-- Floating icons -->
-  <i data-feather="heart" class="floating-icon" style="color:#FF4D4D; left:20%; top:70%; width:30px; height:30px;"></i>
-  <i data-feather="sword" class="floating-icon" style="color:#FFD700; left:50%; top:80%; width:30px; height:30px; animation-delay:1s;"></i>
-  <i data-feather="star" class="floating-icon" style="color:#FFB347; left:70%; top:75%; width:25px; height:25px; animation-delay:2s;"></i>
+  <i data-feather="heart" class="floating-icon heart-icon"></i>
+  <i data-feather="sword" class="floating-icon sword-icon"></i>
+  <i data-feather="star" class="floating-icon star-icon"></i>
 </section>
 
 <!-- PLAY NOW MODAL -->
@@ -187,76 +145,6 @@ body { margin:0; padding:0; font-family:Inter,sans-serif; background:black; over
   <p class="text-yellow-600 mt-6 text-sm">&copy; 2025 RadicleMC. All rights reserved.</p>
 </footer>
 
-<script>
-// Feather icons
-feather.replace();
-
-// Smooth scroll
-document.querySelectorAll('.scroll-link').forEach(link=>{
-  link.addEventListener('click', function(e){
-    e.preventDefault();
-    document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
-  });
-});
-
-// Modal
-const modal = document.getElementById('modal');
-const playBtn = document.getElementById('playNowBtn');
-const closeModal = document.getElementById('closeModal');
-playBtn.addEventListener('click', ()=> modal.classList.add('active'));
-closeModal.addEventListener('click', ()=> modal.classList.remove('active'));
-document.getElementById('copyBtn').addEventListener('click', ()=>{
-  const ip = document.getElementById('serverIp');
-  ip.select();
-  navigator.clipboard.writeText(ip.value);
-  alert('Server IP copied!');
-});
-
-// Real Player Count
-async function updatePlayerCount() {
-    const playerElem = document.getElementById('playerCount');
-    try {
-        const res = await fetch('https://api.mcsrvstat.us/2/play.radiclemc.net');
-        const data = await res.json();
-        if (data.online) {
-            playerElem.textContent = data.players.online + " Players Online";
-        } else {
-            playerElem.textContent = "Server Offline";
-        }
-    } catch (err) {
-        playerElem.textContent = "Server Offline";
-    }
-}
-updatePlayerCount();
-setInterval(updatePlayerCount, 10000);
-
-// Simple slow particle effect
-const canvas = document.getElementById('particles-js');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const particles = [];
-for(let i=0;i<50;i++){
-    particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*3+1, dx:(Math.random()-0.5)/2, dy:(Math.random()-0.5)/2});
-}
-function animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-        p.x+=p.dx;
-        p.y+=p.dy;
-        if(p.x<0)p.x=canvas.width;
-        if(p.x>canvas.width)p.x=0;
-        if(p.y<0)p.y=canvas.height;
-        if(p.y>canvas.height)p.y=0;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle="rgba(255,215,0,0.4)";
-        ctx.fill();
-    });
-    requestAnimationFrame(animate);
-}
-animate();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
