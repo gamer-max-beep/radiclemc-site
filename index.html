@@ -9,13 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 html::-webkit-scrollbar { width:0px; background:transparent; }
-body { 
-  margin:0; 
-  padding:0; 
-  font-family:Inter,sans-serif; 
-  background: #000000; /* black background */ 
-  overflow-x:hidden; 
-}
+body { margin:0; padding:0; font-family:Inter,sans-serif; background:black; overflow-x:hidden; }
 
 /* Buttons */
 .btn-gold {
@@ -50,22 +44,14 @@ body {
 .floating-icon { position:absolute; animation:floatUp 6s infinite; opacity:0.6; }
 @keyframes floatUp { 0% { transform: translateY(0); opacity:0.6; } 50%{opacity:1} 100% { transform: translateY(-300px); opacity:0; } }
 
-/* Particles */
-.particle {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  pointer-events: none;
-  animation: moveParticle linear infinite;
-}
-@keyframes moveParticle {
-  0% { transform: translateY(0) translateX(0); opacity:0.3; }
-  50% { opacity:0.6; }
-  100% { transform: translateY(-1000px) translateX(50px); opacity:0; }
-}
+/* Particle background */
+#particles-js { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index:0; }
 </style>
 </head>
 <body>
+
+<!-- PARTICLES -->
+<canvas id="particles-js"></canvas>
 
 <!-- NAVBAR -->
 <nav class="fixed top-0 left-0 w-full z-50 px-8 py-5 flex justify-between items-center bg-transparent">
@@ -87,7 +73,7 @@ body {
 </nav>
 
 <!-- HERO -->
-<section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden">
+<section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden z-10">
   <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-80 mb-6">
   <h1 class="font-poppins text-7xl font-bold uppercase mb-6" style="background: linear-gradient(90deg, #FFD700, #B8860B); -webkit-background-clip: text; color: transparent;">
     GROW. FIGHT. RISE.
@@ -202,6 +188,7 @@ body {
 </footer>
 
 <script>
+// Feather icons
 feather.replace();
 
 // Smooth scroll
@@ -211,23 +198,6 @@ document.querySelectorAll('.scroll-link').forEach(link=>{
     document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
   });
 });
-
-// Live Player Count (fetch server status)
-async function updatePlayerCount(){
-  try{
-    const res = await fetch('https://api.mcstatus.io/v2/status/java/play.radiclemc.net');
-    const data = await res.json();
-    if(data.online){
-      document.getElementById('playerCount').textContent = data.players.online + " Players Online";
-    } else {
-      document.getElementById('playerCount').textContent = "Server Offline";
-    }
-  } catch(err){
-    document.getElementById('playerCount').textContent = "Server Offline";
-  }
-}
-updatePlayerCount();
-setInterval(updatePlayerCount, 10000); // update every 10s
 
 // Modal
 const modal = document.getElementById('modal');
@@ -242,17 +212,51 @@ document.getElementById('copyBtn').addEventListener('click', ()=>{
   alert('Server IP copied!');
 });
 
-// Generate particles
-for(let i=0;i<50;i++){
-  const p = document.createElement('div');
-  p.classList.add('particle');
-  p.style.width = (Math.random()*4+2)+'px';
-  p.style.height = p.style.width;
-  p.style.left = Math.random()*window.innerWidth+'px';
-  p.style.top = Math.random()*window.innerHeight+'px';
-  p.style.animationDuration = (Math.random()*20+30)+'s';
-  document.body.appendChild(p);
+// Real Player Count
+async function updatePlayerCount() {
+    const playerElem = document.getElementById('playerCount');
+    try {
+        const res = await fetch('https://api.mcsrvstat.us/2/play.radiclemc.net');
+        const data = await res.json();
+        if (data.online) {
+            playerElem.textContent = data.players.online + " Players Online";
+        } else {
+            playerElem.textContent = "Server Offline";
+        }
+    } catch (err) {
+        playerElem.textContent = "Server Offline";
+    }
 }
+updatePlayerCount();
+setInterval(updatePlayerCount, 10000);
+
+// Simple slow particle effect
+const canvas = document.getElementById('particles-js');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const particles = [];
+for(let i=0;i<50;i++){
+    particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*3+1, dx:(Math.random()-0.5)/2, dy:(Math.random()-0.5)/2});
+}
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+        p.x+=p.dx;
+        p.y+=p.dy;
+        if(p.x<0)p.x=canvas.width;
+        if(p.x>canvas.width)p.x=0;
+        if(p.y<0)p.y=canvas.height;
+        if(p.y>canvas.height)p.y=0;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle="rgba(255,215,0,0.4)";
+        ctx.fill();
+    });
+    requestAnimationFrame(animate);
+}
+animate();
 </script>
+
 </body>
 </html>
