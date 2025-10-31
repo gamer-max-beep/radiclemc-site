@@ -25,7 +25,7 @@ document.getElementById('copyBtn').addEventListener('click', ()=>{
 async function updatePlayerCount(){
   const playerCountEl = document.getElementById('playerCount');
   try{
-    const response = await fetch('https://api.mcstatus.io/v2/status/java/play.radiclemc.net');
+    const response = await fetch('https://api.mcstatus.io/v2/status/java/nl-01.freezehost.pro:11630');
     const data = await response.json();
     if(data.online){
       playerCountEl.textContent = `${data.players.online} Players Online`;
