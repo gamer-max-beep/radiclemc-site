@@ -1,43 +1,56 @@
-// Particle Background
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
+// Feather icons
+feather.replace();
+
+// Particles background
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-class Particle {
-  constructor() {
-    this.x = Math.random()*canvas.width;
-    this.y = Math.random()*canvas.height;
-    this.size = Math.random()*3+1;
-    this.speed = Math.random()*0.3+0.1;
-    this.color = `rgba(218,165,32,${Math.random()*0.5+0.2})`;
-  }
-  update() { this.y -= this.speed; if(this.y < 0) { this.y = canvas.height; this.x = Math.random()*canvas.width; } }
-  draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill(); }
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+const particles = [];
+for(let i=0;i<80;i++){
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*3+1,
+    d: Math.random()*2,
+    color: "rgba(255,215,0,0.6)"
+  });
 }
 
-let particlesArray = [];
-for(let i=0;i<100;i++) particlesArray.push(new Particle());
-
-function animate() {
+function drawParticles(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  particlesArray.forEach(p => { p.update(); p.draw(); });
-  requestAnimationFrame(animate);
+  for(let p of particles){
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    p.y -= p.d;
+    if(p.y<0) p.y = canvas.height;
+  }
+  requestAnimationFrame(drawParticles);
 }
-animate();
+drawParticles();
 
-window.addEventListener("resize", ()=> { canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
-
-// Fetch live player count
-async function updatePlayerCount() {
-  try {
-    const res = await fetch("https://api.mcstatus.io/v2/status/java/nl-01.freezehost.pro:11630");
+// Server status & player count
+const playerCountElem = document.getElementById('playerCount');
+async function fetchServerStatus(){
+  try{
+    const res = await fetch('https://api.mcstatus.io/v2/status/java/play.radiclemc.net');
     const data = await res.json();
-    const players = data.players.online;
-    document.getElementById("playerCount").textContent = `${players} Players Online`;
-  } catch(e) {
-    document.getElementById("playerCount").textContent = "Server Offline";
+    if(data.online){
+      playerCountElem.textContent = `${data.players.online} Players Online`;
+    }else{
+      playerCountElem.textContent = 'Server Offline';
+    }
+  }catch(e){
+    playerCountElem.textContent = 'Server Offline';
   }
 }
-updatePlayerCount();
-setInterval(updatePlayerCount, 10000);
+fetchServerStatus();
+setInterval(fetchServerStatus, 10000);
