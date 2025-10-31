@@ -1,5 +1,6 @@
+/* Scrollbar */
 html::-webkit-scrollbar { width:0px; background:transparent; }
-body { margin:0; padding:0; font-family:Inter,sans-serif; background:#0a0a0a; overflow-x:hidden; position:relative; }
+body { margin:0; padding:0; font-family:Inter,sans-serif; background:transparent; overflow-x:hidden; }
 
 /* Buttons */
 .btn-gold {
@@ -42,4 +43,30 @@ body { margin:0; padding:0; font-family:Inter,sans-serif; background:#0a0a0a; ov
   width: 100%;
   height: 100%;
   z-index: -1;
+}
+
+/* Make sections visible above particles */
+section, footer, nav {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero title gradient */
+h1, h2 {
+  background: linear-gradient(90deg, #FFD700, #B8860B);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Section paragraphs color */
+section p {
+  color: #D2B48C;
+}
+
+/* Cards inner text colors */
+.feature-card h3, .game-mode-card h3, .community-card h3 {
+  color: #8B4513;
+}
+.feature-card p, .game-mode-card p, .community-card div {
+  color: #A0522D;
 }
