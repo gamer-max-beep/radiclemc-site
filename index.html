@@ -4,20 +4,73 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RadicleMC | Lifesteal PvP Network</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+html::-webkit-scrollbar { width:0px; background:transparent; }
+body { 
+  margin:0; 
+  padding:0; 
+  font-family:Inter,sans-serif; 
+  background: #000000; /* black background */ 
+  overflow-x:hidden; 
+}
+
+/* Buttons */
+.btn-gold {
+  background: linear-gradient(90deg, #DAA520, #B8860B);
+  color: #FFF8DC; font-weight:600;
+  padding:0.8rem 1.8rem; border-radius:0.75rem;
+  display:inline-flex; align-items:center; transition:0.3s;
+  box-shadow:0 0 10px rgba(218,165,32,0.4);
+}
+.btn-gold:hover {
+  background: linear-gradient(90deg, #B8860B, #DAA520);
+  transform: translateY(-2px);
+  box-shadow:0 0 15px rgba(218,165,32,0.6);
+}
+
+/* Cards hover glow + zoom */
+.feature-card, .game-mode-card, .community-card {
+  border-radius:1rem; padding:1.5rem; text-align:center; transition: transform 0.3s, box-shadow 0.3s;
+}
+.feature-card:hover, .game-mode-card:hover, .community-card:hover {
+  transform: scale(1.05);
+  box-shadow:0 0 25px rgba(218,165,32,0.5);
+}
+
+/* Modal */
+.modal-bg { background: rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:0.4s; position:fixed; inset:0; display:flex; justify-content:center; align-items:center; z-index:100; }
+.modal-bg.active { opacity:1; pointer-events:auto; }
+.modal-content { transform: translateY(-20px); opacity:0; transition:all 0.4s ease; background:white; padding:2rem; border-radius:1.5rem; width:320px; text-align:center; }
+.modal-bg.active .modal-content { transform: translateY(0); opacity:1; }
+
+/* Floating icons */
+.floating-icon { position:absolute; animation:floatUp 6s infinite; opacity:0.6; }
+@keyframes floatUp { 0% { transform: translateY(0); opacity:0.6; } 50%{opacity:1} 100% { transform: translateY(-300px); opacity:0; } }
+
+/* Particles */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  pointer-events: none;
+  animation: moveParticle linear infinite;
+}
+@keyframes moveParticle {
+  0% { transform: translateY(0) translateX(0); opacity:0.3; }
+  50% { opacity:0.6; }
+  100% { transform: translateY(-1000px) translateX(50px); opacity:0; }
+}
+</style>
 </head>
 <body>
-
-<!-- Particle Canvas -->
-<canvas id="particles"></canvas>
 
 <!-- NAVBAR -->
 <nav class="fixed top-0 left-0 w-full z-50 px-8 py-5 flex justify-between items-center bg-transparent">
   <div class="flex items-center space-x-2">
-    <a href="#home" class="flex items-center space-x-2 scroll-link">
+    <a href="#home" class="flex items-center space-x-2">
       <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-14">
       <span class="text-2xl font-bold text-yellow-600">RadicleMC</span>
     </a>
@@ -36,11 +89,11 @@
 <!-- HERO -->
 <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 overflow-hidden">
   <img src="https://i.postimg.cc/cJ5rWr3M/Radicle-MC-Logo-No-BG.png" alt="RadicleMC Logo" class="h-80 mb-6">
-  <h1 class="font-poppins text-7xl font-bold uppercase mb-6">
+  <h1 class="font-poppins text-7xl font-bold uppercase mb-6" style="background: linear-gradient(90deg, #FFD700, #B8860B); -webkit-background-clip: text; color: transparent;">
     GROW. FIGHT. RISE.
   </h1>
-  <p class="text-xl md:text-2xl max-w-2xl mb-10 relative">
-    Welcome to <span class="font-semibold">RadicleMC Lifesteal</span> — grow stronger with every battle and every heart you claim.
+  <p class="text-xl md:text-2xl max-w-2xl mb-10 relative" style="background: linear-gradient(90deg, #DAA520, #FFD700); -webkit-background-clip: text; color: transparent;">
+    Welcome to <span class="font-semibold" style="color:#FFD700">RadicleMC Lifesteal</span> — grow stronger with every battle and every heart you claim.
   </p>
 
   <div class="flex flex-wrap justify-center gap-4 relative z-10">
@@ -51,7 +104,7 @@
   <div class="mt-14 relative z-10">
     <div class="relative px-6 py-2 bg-yellow-700 text-yellow-50 rounded-full font-bold flex items-center shadow-md">
       <span class="inline-block w-3 h-3 bg-red-500 rounded-full mr-2 animate-ping"></span>
-      <span id="playerCount">Loading Players...</span>
+      <span id="playerCount">Loading...</span>
     </div>
   </div>
 
@@ -72,70 +125,70 @@
   </div>
 </div>
 
-<!-- ABOUT -->
+<!-- ABOUT / FEATURES -->
 <section id="about" class="py-24 text-center">
-  <h2 class="font-poppins text-4xl font-bold uppercase mb-6">The Ultimate Lifesteal Experience</h2>
-  <p class="max-w-3xl mx-auto text-lg mb-12">
+  <h2 class="font-poppins text-4xl font-bold uppercase mb-6" style="background: linear-gradient(90deg,#FFD700,#B8860B);-webkit-background-clip:text;color:transparent;">The Ultimate Lifesteal Experience</h2>
+  <p class="max-w-3xl mx-auto text-lg mb-12" style="color:#D2B48C;">
     RadicleMC is a competitive Lifesteal network where every hit counts, every kill matters, and every heart fuels your rise to power.
   </p>
 
   <div class="grid md:grid-cols-4 gap-10 mt-16">
     <div class="feature-card" style="background: linear-gradient(135deg,#FFF8DC,#FFE4B5);">
       <i data-feather="heart" class="w-10 h-10 mb-4 mx-auto" style="color:#FF4D4D;"></i>
-      <h3>Lifesteal Combat</h3>
-      <p>Steal hearts from enemies and grow stronger every fight.</p>
+      <h3 class="font-bold text-xl mb-2" style="color:#8B4513;">Lifesteal Combat</h3>
+      <p style="color:#A0522D;">Steal hearts from enemies and grow stronger every fight.</p>
     </div>
     <div class="feature-card" style="background: linear-gradient(135deg,#FAFAD2,#FFFACD);">
       <i data-feather="users" class="w-10 h-10 mb-4 mx-auto" style="color:#FFA500;"></i>
-      <h3>Duels & Clans</h3>
-      <p>Form clans and fight in dynamic multiplayer battles.</p>
+      <h3 class="font-bold text-xl mb-2" style="color:#8B4513;">Duels & Clans</h3>
+      <p style="color:#A0522D;">Form clans and fight in dynamic multiplayer battles.</p>
     </div>
     <div class="feature-card" style="background: linear-gradient(135deg,#FFEFD5,#FFE4C4);">
       <i data-feather="gift" class="w-10 h-10 mb-4 mx-auto" style="color:#FFD700;"></i>
-      <h3>Crates & Rewards</h3>
-      <p>Earn rare loot and exclusive items through challenges.</p>
+      <h3 class="font-bold text-xl mb-2" style="color:#8B4513;">Crates & Rewards</h3>
+      <p style="color:#A0522D;">Earn rare loot and exclusive items through challenges.</p>
     </div>
     <div class="feature-card" style="background: linear-gradient(135deg,#FFF8DC,#FAF0E6);">
       <i data-feather="award" class="w-10 h-10 mb-4 mx-auto" style="color:#DAA520;"></i>
-      <h3>Seasonal Leaderboards</h3>
-      <p>Climb the ranks and prove your dominance each season.</p>
+      <h3 class="font-bold text-xl mb-2" style="color:#8B4513;">Seasonal Leaderboards</h3>
+      <p style="color:#A0522D;">Climb the ranks and prove your dominance each season.</p>
     </div>
   </div>
 </section>
 
 <!-- GAME MODES -->
 <section id="modes" class="py-24 text-center">
-  <h2 class="font-poppins text-4xl font-bold uppercase mb-6">Game Modes</h2>
+  <h2 class="font-poppins text-4xl font-bold uppercase mb-6" style="background: linear-gradient(90deg,#FFD700,#B8860B);-webkit-background-clip:text;color:transparent;">Game Modes</h2>
   <div class="grid md:grid-cols-3 gap-8 mt-12">
     <div class="game-mode-card" style="background: linear-gradient(135deg,#FFF8DC,#FFE4B5);">
       <i data-feather="users" class="w-12 h-12 mb-4 mx-auto" style="color:#FFA500;"></i>
-      <h3>PvP Arena</h3>
-      <p>Every player fights for dominance in open PvP battles.</p>
+      <h3 class="font-bold text-2xl mb-2" style="color:#8B4513;">PvP Arena</h3>
+      <p style="color:#A0522D;">Every player fights for dominance in open PvP battles.</p>
     </div>
     <div class="game-mode-card" style="background: linear-gradient(135deg,#FAFAD2,#FFFACD);">
       <i data-feather="activity" class="w-12 h-12 mb-4 mx-auto" style="color:#FFD700;"></i>
-      <h3>Crystal PvP</h3>
-      <p>Collect crystals, gain power, and battle other players for rewards.</p>
+      <h3 class="font-bold text-2xl mb-2" style="color:#8B4513;">Crystal PvP</h3>
+      <p style="color:#A0522D;">Collect crystals, gain power, and battle other players for rewards.</p>
     </div>
     <div class="game-mode-card" style="background: linear-gradient(135deg,#FFEFD5,#FFE4C4);">
       <i data-feather="map" class="w-12 h-12 mb-4 mx-auto" style="color:#DAA520;"></i>
-      <h3>Clan Wars</h3>
-      <p>Team up with your clan and dominate rival clans in strategic battles.</p>
+      <h3 class="font-bold text-2xl mb-2" style="color:#8B4513;">Clan Wars</h3>
+      <p style="color:#A0522D;">Team up with your clan and dominate rival clans in strategic battles.</p>
     </div>
   </div>
 </section>
 
 <!-- COMMUNITY -->
 <section id="community" class="py-24 text-center">
-  <h2 class="font-poppins text-4xl font-bold uppercase mb-6">Join Our Thriving Community</h2>
+  <h2 class="font-poppins text-4xl font-bold uppercase mb-6" style="background: linear-gradient(90deg,#FFD700,#B8860B);-webkit-background-clip:text;color:transparent;">Join Our Thriving Community</h2>
   <div class="grid md:grid-cols-2 gap-8 mt-12 max-w-3xl mx-auto">
     <div class="community-card" style="background:#FFF8DC; padding:2rem; border-radius:1rem;">
-      <div class="text-3xl font-bold mb-2">5,000+</div>
-      <div>Discord Members</div>
+      <div class="text-3xl font-bold mb-2" style="color:#8B4513;">5,000+</div>
+      <div style="color:#A0522D;">Discord Members</div>
     </div>
     <div class="community-card" style="background:#FAFAD2; padding:2rem; border-radius:1rem;">
-      <div class="text-3xl font-bold mb-2">10M+</div>
-      <div>Hearts Stolen</div>
+      <div class="text-3xl font-bold mb-2" style="color:#8B4513;">10M+</div>
+      <div style="color:#A0522D;">Hearts Stolen</div>
     </div>
   </div>
   <a href="https://discord.gg/FsC2cz4cp4" target="_blank" class="btn-gold mt-12 inline-flex items-center"><i data-feather="message-circle" class="mr-2"></i> Join Our Discord</a>
@@ -148,6 +201,58 @@
   <p class="text-yellow-600 mt-6 text-sm">&copy; 2025 RadicleMC. All rights reserved.</p>
 </footer>
 
-<script src="script.js"></script>
+<script>
+feather.replace();
+
+// Smooth scroll
+document.querySelectorAll('.scroll-link').forEach(link=>{
+  link.addEventListener('click', function(e){
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// Live Player Count (fetch server status)
+async function updatePlayerCount(){
+  try{
+    const res = await fetch('https://api.mcstatus.io/v2/status/java/play.radiclemc.net');
+    const data = await res.json();
+    if(data.online){
+      document.getElementById('playerCount').textContent = data.players.online + " Players Online";
+    } else {
+      document.getElementById('playerCount').textContent = "Server Offline";
+    }
+  } catch(err){
+    document.getElementById('playerCount').textContent = "Server Offline";
+  }
+}
+updatePlayerCount();
+setInterval(updatePlayerCount, 10000); // update every 10s
+
+// Modal
+const modal = document.getElementById('modal');
+const playBtn = document.getElementById('playNowBtn');
+const closeModal = document.getElementById('closeModal');
+playBtn.addEventListener('click', ()=> modal.classList.add('active'));
+closeModal.addEventListener('click', ()=> modal.classList.remove('active'));
+document.getElementById('copyBtn').addEventListener('click', ()=>{
+  const ip = document.getElementById('serverIp');
+  ip.select();
+  navigator.clipboard.writeText(ip.value);
+  alert('Server IP copied!');
+});
+
+// Generate particles
+for(let i=0;i<50;i++){
+  const p = document.createElement('div');
+  p.classList.add('particle');
+  p.style.width = (Math.random()*4+2)+'px';
+  p.style.height = p.style.width;
+  p.style.left = Math.random()*window.innerWidth+'px';
+  p.style.top = Math.random()*window.innerHeight+'px';
+  p.style.animationDuration = (Math.random()*20+30)+'s';
+  document.body.appendChild(p);
+}
+</script>
 </body>
 </html>
